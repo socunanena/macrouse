@@ -6,10 +6,18 @@
   "author": "Natàlia <natalia.cavi@gmail.com>",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "babel ./src --out-dir dist"
+    "build": "babel ./src --out-dir dist",
+    "test": "jest",
+    "tdd": "jest --watch"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0"
+    "babel-preset-env": "^1.7.0",
+    "jest": "^23.4.1"
+  },
+  "jest": {
+    "clearMocks": true,
+    "collectCoverage": true,
+    "coverageDirectory": "./build/logs/jest/coverage"
   }
 }
