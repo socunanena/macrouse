@@ -1,31 +1,45 @@
-const CONSTANTS = {
-  man: {
-    base: 66.5,
-    weight: 13.75,
-    height: 5.003,
+const SUBJECT_FACTORS = {
+  male: {
+    base: 66.473,
+    weight: 13.7516,
+    height: 5.0033,
     age: 6.755,
   },
-  woman: {
-    base: 655.1,
-    weight: 9.563,
-    height: 1.850,
-    age: 4.676,
+  female: {
+    base: 655.0955,
+    weight: 9.5634,
+    height: 1.8449,
+    age: 4.6756,
   },
 }
 
-/**
- * Gets the BMR (Basal Metabolic Rate) using the Harris–Benedict equation.
- *
- * @param {Number} weight User weight in kgs
- * @param {Number} height User height in cms
- * @param {Number} age User age
- * @param {string} gender User gender. Allowed values: 'man', 'woman'
- */
-export function bmr(weight, height, age, gender) {
-  const constants = CONSTANTS[gender];
+export default class Nutrition {
+  /**
+   * @param {Number} weight Subject weight in kgs
+   * @param {Number} height Subject height in cms
+   * @param {Number} age Subject age
+   * @param {string} gender Subject gender. Allowed values: 'male', 'female'
+   */
+  constructor({ weight, height, age, gender }) {
+    // TODO check input values
 
-  return constants.base
-    + constants.weight * weight
-    + constants.height * height
-    + constants.age * age;
+    this._weight = weight;
+    this._height = height;
+    this._age = age;
+    this._gender = gender;
+  }
+
+  /**
+   * Gets the BMR (Basal Metabolic Rate) for the configured subject using the Harris-Benedict equation.
+   */
+  bmr() {
+    const factors = SUBJECT_FACTORS[this._gender];
+
+    this._bmr = factors.base
+      + factors.weight * this._weight
+      + factors.height * this._height
+      + factors.age * this._age;
+
+    return this._bmr;
+  }
 }

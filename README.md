@@ -19,21 +19,31 @@ $ yarn run build
 ### Running the app
 
 ```javascript
-var { bmr } = require('./dist/index.js');
+var Nutrition = require('./dist/index').default;
 
-bmr(70, 180, 38, 'man');
+const subjectData = {
+  weight: 70,
+  height: 180,
+  age: 38,
+  gender: 'male',
+};
+const nutrition = new Nutrition(subjectData);
+
+subjectData.bmr();
 ```
 
 ## Documentation
 
-### bmr(weight, height, age, gender)
-Gets the BMR (Basal Metabolic Rate) using the Harris–Benedict equation.
+### Nutrition (class)
 
-**Kind**: global function
+#### constructor({ weight, height, age, gender })
 
 | Param | Type | Description |
 | --- | --- | --- |
-| weight | <code>Number</code> | User weight in kgs |
-| height | <code>Number</code> | User height in cms |
-| age | <code>Number</code> | User age |
-| gender | <code>string</code> | User gender. Allowed values: 'man', 'woman' |
+| weight | <code>Number</code> | Subject weight in kgs |
+| height | <code>Number</code> | Subject height in cms |
+| age | <code>Number</code> | Subject age |
+| gender | <code>string</code> | Subject gender. Allowed values: 'man', 'woman' |
+
+#### bmr()
+Gets the BMR (Basal Metabolic Rate) for the configured subject using the Harris-Benedict equation.
