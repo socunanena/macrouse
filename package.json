@@ -16,8 +16,6 @@
     "jest": "^23.4.1"
   },
   "jest": {
-    "clearMocks": true,
-    "collectCoverage": true,
-    "coverageDirectory": "./build/logs/jest/coverage"
+    "clearMocks": true
   }
 }
