@@ -19,4 +19,18 @@ describe('Nutrition', () => {
       expect(nutrition.bmr()).toBe(2186.369);
     });
   });
+
+  describe('#tee()', () => {
+    it('should calculate the tee', () => {
+      const subjectData = {
+        weight: 70,
+        height: 180,
+        age: 38,
+        gender: 'male',
+      };
+      const nutrition = new Nutrition(subjectData);
+
+      expect(nutrition.tee({ exercise: 'medium' })).toBe(3388.87195);
+    });
+  });
 });

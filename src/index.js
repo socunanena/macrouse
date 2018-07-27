@@ -11,7 +11,15 @@ const SUBJECT_FACTORS = {
     height: 1.8449,
     age: 4.6756,
   },
-}
+};
+
+const EXERCISE_FACTORS = {
+  none: 1.2,
+  low: 1.375,
+  medium: 1.55,
+  high: 1.725,
+  extreme: 1.9,
+};
 
 export default class Nutrition {
   /**
@@ -42,4 +50,18 @@ export default class Nutrition {
 
     return this._bmr;
   }
-}
+
+  /**
+   * Gets de TEE (Total Energy Expenditure) for the configured subject.
+   *
+   * @param {string} exercise Exercise factor
+   */
+  tee({ exercise }) {
+    const exerciseFactor = EXERCISE_FACTORS[exercise];
+    const bmr = this._bmr || this.bmr();
+
+    this._tee = bmr * exerciseFactor;
+
+    return this._tee;
+  }
+};

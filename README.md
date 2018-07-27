@@ -47,3 +47,10 @@ subjectData.bmr();
 
 #### bmr()
 Gets the BMR (Basal Metabolic Rate) for the configured subject using the Harris-Benedict equation.
+
+#### tee({ exercise })
+Gets de TEE (Total Energy Expenditure) for the configured subject.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| exercise | <code>string</code> | Exercise factor |
