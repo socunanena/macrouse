@@ -42,21 +42,38 @@ describe('Nutrition', () => {
       });
     });
 
-    describe('when the macros are all expressed in percentages', () => {
-      it('should calculate the corresponding calories for each macro', () => {
-        const nutrition = createClass();
-        nutrition.tee({ exercise: 'medium' });
+    describe('when the macros are expressed in percentages', () => {
+      describe('and they are all provided', () => {
+        describe('and their sum is not 100', () => {
+          it('should throw an error', () => {
+          });
+        });
 
-        const macros = {
-          fat: '50%',
-          protein: '20%',
-          carbs: '30%',
-        };
+        it('should calculate the corresponding calories for each macro', () => {
+          const nutrition = createClass();
+          nutrition.tee({ exercise: 'medium' });
 
-        expect(nutrition.distributeMacros(macros)).toEqual({
-          fat: 188,
-          protein: 169,
-          carbs: 254,
+          const macros = {
+            fat: '50%',
+            protein: '20%',
+            carbs: '30%',
+          };
+
+          expect(nutrition.distributeMacros(macros)).toEqual({
+            fat: 188,
+            protein: 169,
+            carbs: 254,
+          });
+        });
+      });
+
+      describe('and there are only two provided', () => {
+        describe('and their sum is not 100', () => {
+          it('should throw an error', () => {
+          });
+        });
+
+        it('should put the third macro to 0 and calculate the corresponding calories for each macro', () => {
         });
       });
     });
@@ -76,6 +93,16 @@ describe('Nutrition', () => {
           protein: 140,
           carbs: 30,
         });
+      });
+    });
+
+    describe('when one macro is provided by value and one as a percentage', () => {
+      it('should calculate the corresponding calories for each macro', () => {
+      });
+    });
+
+    describe('when one macro is provided by value and the rest as percentages', () => {
+      it('should calculate the corresponding calories for each macro', () => {
       });
     });
   });
