@@ -1,5 +1,16 @@
 const Nutrition = require('../src/index.js').default;
 
+function createClass() {
+  const subjectData = {
+    weight: 70,
+    height: 180,
+    age: 38,
+    gender: 'male',
+  };
+
+  return new Nutrition(subjectData);
+}
+
 describe('Nutrition', () => {
   it('should be a class with the proper API: bmr()', () => {
     expect(Nutrition).toBeInstanceOf(Function);
@@ -8,29 +19,64 @@ describe('Nutrition', () => {
 
   describe('#bmr()', () => {
     it('should calculate the bmr', () => {
-      const subjectData = {
-        weight: 70,
-        height: 180,
-        age: 38,
-        gender: 'male',
-      };
-      const nutrition = new Nutrition(subjectData);
+      const nutrition = createClass();
 
-      expect(nutrition.bmr()).toBe(2186.369);
+      expect(nutrition.bmr()).toBe(2186);
     });
   });
 
-  describe('#tee()', () => {
+  describe('#tee({ exercise })', () => {
     it('should calculate the tee', () => {
-      const subjectData = {
-        weight: 70,
-        height: 180,
-        age: 38,
-        gender: 'male',
-      };
-      const nutrition = new Nutrition(subjectData);
+      const nutrition = createClass();
 
-      expect(nutrition.tee({ exercise: 'medium' })).toBe(3388.87195);
+      expect(nutrition.tee({ exercise: 'medium' })).toBe(3388);
+    });
+  });
+
+  describe('#distributeMacros(options)', () => {
+    describe('when the TEE is not calculated yet', () => {
+      it('should throw an error', () => {
+        const nutrition = createClass();
+
+        expect(nutrition.distributeMacros).toThrow(Error);
+      });
+    });
+
+    describe('when the macros are all expressed in percentages', () => {
+      it('should calculate the corresponding calories for each macro', () => {
+        const nutrition = createClass();
+        nutrition.tee({ exercise: 'medium' });
+
+        const macros = {
+          fat: '50%',
+          protein: '20%',
+          carbs: '30%',
+        };
+
+        expect(nutrition.distributeMacros(macros)).toEqual({
+          fat: 188,
+          protein: 169,
+          carbs: 254,
+        });
+      });
+    });
+
+    describe('when two macros are provided by value', () => {
+      it('should calculate the corresponding calories for the third macro', () => {
+        const nutrition = createClass();
+        nutrition.tee({ exercise: 'medium' });
+
+        const macros = {
+          carbs: 30,
+          protein: 140,
+        };
+
+        expect(nutrition.distributeMacros(macros)).toEqual({
+          fat: 301,
+          protein: 140,
+          carbs: 30,
+        });
+      });
     });
   });
 });

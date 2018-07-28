@@ -1,3 +1,5 @@
+import { mapValues, pickBy, omitBy, reduce } from 'lodash';
+
 const SUBJECT_FACTORS = {
   male: {
     base: 66.473,
@@ -19,6 +21,12 @@ const EXERCISE_FACTORS = {
   medium: 1.55,
   high: 1.725,
   extreme: 1.9,
+};
+
+const MACROS_CALORIES = {
+  fat: 9,
+  protein: 4,
+  carbs: 4,
 };
 
 export default class Nutrition {
@@ -43,10 +51,10 @@ export default class Nutrition {
   bmr() {
     const factors = SUBJECT_FACTORS[this._gender];
 
-    this._bmr = factors.base
+    this._bmr = Math.round(factors.base
       + factors.weight * this._weight
       + factors.height * this._height
-      + factors.age * this._age;
+      + factors.age * this._age);
 
     return this._bmr;
   }
@@ -60,8 +68,34 @@ export default class Nutrition {
     const exerciseFactor = EXERCISE_FACTORS[exercise];
     const bmr = this._bmr || this.bmr();
 
-    this._tee = bmr * exerciseFactor;
+    this._tee = Math.round(bmr * exerciseFactor);
 
     return this._tee;
+  }
+
+  /**
+   * WiP
+   */
+  distributeMacros({ fat, protein, carbs }) {
+    if (!this._tee) {
+      throw new Error('Subject TEE must be calculated to get the distributed macros');
+    }
+
+    if ([fat, protein, carbs].every(macro => typeof macro === 'string')) {
+      return mapValues({ fat, protein, carbs }, (value, key) => {
+        const macro = value.match(/^(\d+)%$/)[1];
+        return Math.round((this._tee * (macro / 100)) / MACROS_CALORIES[key]);
+      });
+    }
+
+    const emptyMacros = Object.keys(omitBy({ fat, protein, carbs }));
+    const filledMacros = pickBy({ fat, protein, carbs });
+    const filledMacrosCalories = reduce(filledMacros, (calories, value, key) => calories + value * MACROS_CALORIES[key], 0);
+    const remainingCalories = this._tee - filledMacrosCalories;
+
+    return {
+      ...filledMacros,
+      ...emptyMacros.reduce((finalMacros, macro) => ({ ...finalMacros, [macro]: Math.round(remainingCalories / MACROS_CALORIES[macro]) }), {}),
+    }
   }
 };
