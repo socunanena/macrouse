@@ -75,7 +75,7 @@ describe('Nutrition', () => {
 
         it('should put the third macro to 0 and calculate the corresponding calories for each macro', () => {
           const nutrition = createClass();
-          const tee = nutrition.tee({ exercise: 'medium' });
+          nutrition.tee({ exercise: 'medium' });
 
           const macros = {
             fat: '70%',
@@ -116,6 +116,20 @@ describe('Nutrition', () => {
 
     describe('when one macro is provided by value and the rest as percentages', () => {
       it('should calculate the corresponding calories for each macro', () => {
+        const nutrition = createClass();
+        nutrition.tee({ exercise: 'medium' });
+
+        const macros = {
+          fat: '70%',
+          protein: '30%',
+          carbs: 50,
+        };
+
+        expect(nutrition.distributeMacros(macros)).toEqual({
+          fat: 248,
+          protein: 239,
+          carbs: 50,
+        });
       });
     });
   });

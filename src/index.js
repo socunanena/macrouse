@@ -124,6 +124,19 @@ export default class Nutrition {
       );
     }
 
+    if (percentages.count === 2 && grams.count === 1) {
+      const providedCalories = reduce(grams.macros, (calories, value, key) => calories + value * MACROS_CALORIES[key], 0);
+      const remainingCalories = this._tee - providedCalories;
+
+      return {
+        ...grams.macros,
+        ...mapValues(
+          percentages.macros,
+          (value, key) => Math.round((remainingCalories * (value / 100)) / MACROS_CALORIES[key]),
+        ),
+      };
+    }
+
     if (grams.count === 2) {
       const providedCalories = reduce(grams.macros, (calories, value, key) => calories + value * MACROS_CALORIES[key], 0);
       const remainingCalories = this._tee - providedCalories;
