@@ -29,6 +29,30 @@ const MACROS_CALORIES = {
   carbs: 4,
 };
 
+function validateTypes(macroValues) {
+  return reduce(
+    macroValues,
+    (types, value, key) => {
+      if (typeof value === 'number') {
+        types.grams.count++;
+        types.grams.macros[key] = value;
+      } else if (typeof value === 'string') {
+        const match = value.match(/^(\d+)%$/)[1];
+        if (match) {
+          types.percentages.count++;
+          types.percentages.macros[key] = match;
+        }
+      }
+
+      return types;
+    },
+    {
+      percentages: { count: 0, macros: {} },
+      grams: { count: 0, macros: {} },
+    },
+  );
+}
+
 export default class Nutrition {
   /**
    * @param {Number} weight Subject weight in kgs
@@ -81,11 +105,13 @@ export default class Nutrition {
       throw new Error('Subject TEE must be calculated to get the distributed macros');
     }
 
-    if ([fat, protein, carbs].every(macro => typeof macro === 'string')) {
-      return mapValues({ fat, protein, carbs }, (value, key) => {
-        const macro = value.match(/^(\d+)%$/)[1];
-        return Math.round((this._tee * (macro / 100)) / MACROS_CALORIES[key]);
-      });
+    const { percentages, grams } = validateTypes({ fat, protein, carbs });
+
+    if (percentages.count === 3) {
+      return mapValues(
+        percentages.macros,
+        (value, key) => Math.round((this._tee * (value / 100)) / MACROS_CALORIES[key]),
+      );
     }
 
     const emptyMacros = Object.keys(omitBy({ fat, protein, carbs }));
