@@ -74,6 +74,19 @@ describe('Nutrition', () => {
         });
 
         it('should put the third macro to 0 and calculate the corresponding calories for each macro', () => {
+          const nutrition = createClass();
+          const tee = nutrition.tee({ exercise: 'medium' });
+
+          const macros = {
+            fat: '70%',
+            protein: '30%',
+          };
+
+          expect(nutrition.distributeMacros(macros)).toEqual({
+            fat: 264,
+            protein: 254,
+            carbs: 0,
+          });
         });
       });
     });

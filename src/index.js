@@ -33,7 +33,9 @@ function validateTypes(macroValues) {
   return reduce(
     macroValues,
     (types, value, key) => {
-      if (typeof value === 'number') {
+      if (typeof value === 'undefined') {
+        types.toCalculate = key;
+      } else if (typeof value === 'number') {
         types.grams.count++;
         types.grams.macros[key] = value;
       } else if (typeof value === 'string') {
@@ -105,9 +107,17 @@ export default class Nutrition {
       throw new Error('Subject TEE must be calculated to get the distributed macros');
     }
 
-    const { percentages, grams } = validateTypes({ fat, protein, carbs });
+    const { percentages, grams, toCalculate } = validateTypes({ fat, protein, carbs });
 
     if (percentages.count === 3) {
+      return mapValues(
+        percentages.macros,
+        (value, key) => Math.round((this._tee * (value / 100)) / MACROS_CALORIES[key]),
+      );
+    }
+
+    if (percentages.count === 2 && grams.count === 0) {
+      percentages.macros[toCalculate] = 0;
       return mapValues(
         percentages.macros,
         (value, key) => Math.round((this._tee * (value / 100)) / MACROS_CALORIES[key]),
