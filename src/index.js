@@ -124,14 +124,14 @@ export default class Nutrition {
       );
     }
 
-    const emptyMacros = Object.keys(omitBy({ fat, protein, carbs }));
-    const filledMacros = pickBy({ fat, protein, carbs });
-    const filledMacrosCalories = reduce(filledMacros, (calories, value, key) => calories + value * MACROS_CALORIES[key], 0);
-    const remainingCalories = this._tee - filledMacrosCalories;
+    if (grams.count === 2) {
+      const providedCalories = reduce(grams.macros, (calories, value, key) => calories + value * MACROS_CALORIES[key], 0);
+      const remainingCalories = this._tee - providedCalories;
 
-    return {
-      ...filledMacros,
-      ...emptyMacros.reduce((finalMacros, macro) => ({ ...finalMacros, [macro]: Math.round(remainingCalories / MACROS_CALORIES[macro]) }), {}),
+      return {
+        ...grams.macros,
+        [toCalculate]: Math.round(remainingCalories / MACROS_CALORIES[toCalculate]),
+      }
     }
   }
 };
