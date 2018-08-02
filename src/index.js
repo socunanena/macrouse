@@ -55,6 +55,13 @@ function validateTypes(macroValues) {
   );
 }
 
+function percentagesToGrams({ macros, remainingCalories }) {
+  return mapValues(
+    macros,
+    (value, key) => Math.round((remainingCalories * (value / 100)) / MACROS_CALORIES[key]),
+  );
+}
+
 export default class Nutrition {
   /**
    * @param {Number} weight Subject weight in kgs
@@ -110,18 +117,18 @@ export default class Nutrition {
     const { percentages, grams, toCalculate } = validateTypes({ fat, protein, carbs });
 
     if (percentages.count === 3) {
-      return mapValues(
-        percentages.macros,
-        (value, key) => Math.round((this._tee * (value / 100)) / MACROS_CALORIES[key]),
-      );
+      return percentagesToGrams({
+        macros: percentages.macros,
+        remainingCalories: this._tee,
+      });
     }
 
     if (percentages.count === 2 && grams.count === 0) {
       percentages.macros[toCalculate] = 0;
-      return mapValues(
-        percentages.macros,
-        (value, key) => Math.round((this._tee * (value / 100)) / MACROS_CALORIES[key]),
-      );
+      return percentagesToGrams({
+        macros: percentages.macros,
+        remainingCalories: this._tee,
+      });
     }
 
     if (percentages.count === 2 && grams.count === 1) {
@@ -130,10 +137,10 @@ export default class Nutrition {
 
       return {
         ...grams.macros,
-        ...mapValues(
-          percentages.macros,
-          (value, key) => Math.round((remainingCalories * (value / 100)) / MACROS_CALORIES[key]),
-        ),
+        ...percentagesToGrams({
+          macros: percentages.macros,
+          remainingCalories,
+        }),
       };
     }
 
@@ -143,7 +150,10 @@ export default class Nutrition {
 
       return {
         ...grams.macros,
-        [toCalculate]: Math.round(remainingCalories / MACROS_CALORIES[toCalculate]),
+        ...percentagesToGrams({
+          macros: { [toCalculate]: 100 },
+          remainingCalories,
+        }),
       }
     }
   }
