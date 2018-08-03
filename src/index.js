@@ -10,18 +10,18 @@ import { SUBJECT_FACTORS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/co
 function validateTypes({ fat, protein, carbs }) {
   let toCalculate;
 
-  const types = reduce(
+  const validatedTypes = reduce(
     { fat, protein, carbs },
     (types, value, key) => {
       if (typeof value === 'undefined') {
         toCalculate = key;
       } else if (typeof value === 'number') {
-        types.grams.count++;
+        types.grams.count += 1;
         types.grams.macros[key] = value;
       } else if (typeof value === 'string') {
         const match = value.match(/^(\d+)%$/)[1];
         if (match) {
-          types.percentages.count++;
+          types.percentages.count += 1;
           types.percentages.macros[key] = match;
         }
       }
@@ -35,10 +35,10 @@ function validateTypes({ fat, protein, carbs }) {
   );
 
   if (toCalculate) {
-    types.percentages.macros[toCalculate] = types.grams.count === 2 ? 100 : 0;
+    validatedTypes.percentages.macros[toCalculate] = validatedTypes.grams.count === 2 ? 100 : 0;
   }
 
-  return types;
+  return validatedTypes;
 }
 
 /**
@@ -70,7 +70,7 @@ export default class Nutrition {
   }
 
   /**
-   * Gets the BMR (Basal Metabolic Rate) for the configured subject using the Harris-Benedict equation.
+   * Gets the BMR (Basal Metabolic Rate) for the subject using the Harris-Benedict equation.
    */
   bmr() {
     const factors = SUBJECT_FACTORS[this._gender];
@@ -118,7 +118,8 @@ export default class Nutrition {
     const { percentages, grams } = validateTypes(macros);
 
     const percentageMacros = percentages.macros;
-    const providedCalories = reduce(grams.macros, (calories, value, key) => calories + value * MACROS_CALORIES[key], 0);
+    const gramsToCalories = (calories, value, key) => calories + value * MACROS_CALORIES[key];
+    const providedCalories = reduce(grams.macros, gramsToCalories, 0);
     const remainingCalories = this._tee - providedCalories;
 
     return {
@@ -126,4 +127,4 @@ export default class Nutrition {
       ...percentagesToGrams({ percentageMacros, remainingCalories }),
     };
   }
-};
+}
