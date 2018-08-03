@@ -117,23 +117,18 @@ export default class Nutrition {
     const { percentages, grams, toCalculate } = validateTypes({ fat, protein, carbs });
 
     let percentageMacros = {};
-    let remainingCalories = 0;
+    const providedCalories = reduce(grams.macros, (calories, value, key) => calories + value * MACROS_CALORIES[key], 0);
+    const remainingCalories = this._tee - providedCalories;
 
     if (percentages.count === 3) {
       percentageMacros = percentages.macros;
-      remainingCalories = this._tee;
     } else if (percentages.count === 2 && grams.count === 0) {
       percentages.macros[toCalculate] = 0;
       percentageMacros = percentages.macros;
-      remainingCalories = this._tee;
     } else if (percentages.count === 2 && grams.count === 1) {
-      const providedCalories = reduce(grams.macros, (calories, value, key) => calories + value * MACROS_CALORIES[key], 0);
       percentageMacros = percentages.macros;
-      remainingCalories = this._tee - providedCalories;
     } else if (grams.count === 2) {
-      const providedCalories = reduce(grams.macros, (calories, value, key) => calories + value * MACROS_CALORIES[key], 0);
       percentageMacros = { [toCalculate]: 100 };
-      remainingCalories = this._tee - providedCalories;
     }
 
     return {
