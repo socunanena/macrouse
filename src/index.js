@@ -55,9 +55,9 @@ function validateTypes(macroValues) {
   );
 }
 
-function percentagesToGrams({ macros, remainingCalories }) {
+function percentagesToGrams({ percentageMacros, remainingCalories }) {
   return mapValues(
-    macros,
+    percentageMacros,
     (value, key) => Math.round((remainingCalories * (value / 100)) / MACROS_CALORIES[key]),
   );
 }
@@ -116,45 +116,29 @@ export default class Nutrition {
 
     const { percentages, grams, toCalculate } = validateTypes({ fat, protein, carbs });
 
+    let percentageMacros = {};
+    let remainingCalories = 0;
+
     if (percentages.count === 3) {
-      return percentagesToGrams({
-        macros: percentages.macros,
-        remainingCalories: this._tee,
-      });
-    }
-
-    if (percentages.count === 2 && grams.count === 0) {
+      percentageMacros = percentages.macros;
+      remainingCalories = this._tee;
+    } else if (percentages.count === 2 && grams.count === 0) {
       percentages.macros[toCalculate] = 0;
-      return percentagesToGrams({
-        macros: percentages.macros,
-        remainingCalories: this._tee,
-      });
-    }
-
-    if (percentages.count === 2 && grams.count === 1) {
+      percentageMacros = percentages.macros;
+      remainingCalories = this._tee;
+    } else if (percentages.count === 2 && grams.count === 1) {
       const providedCalories = reduce(grams.macros, (calories, value, key) => calories + value * MACROS_CALORIES[key], 0);
-      const remainingCalories = this._tee - providedCalories;
-
-      return {
-        ...grams.macros,
-        ...percentagesToGrams({
-          macros: percentages.macros,
-          remainingCalories,
-        }),
-      };
-    }
-
-    if (grams.count === 2) {
+      percentageMacros = percentages.macros;
+      remainingCalories = this._tee - providedCalories;
+    } else if (grams.count === 2) {
       const providedCalories = reduce(grams.macros, (calories, value, key) => calories + value * MACROS_CALORIES[key], 0);
-      const remainingCalories = this._tee - providedCalories;
-
-      return {
-        ...grams.macros,
-        ...percentagesToGrams({
-          macros: { [toCalculate]: 100 },
-          remainingCalories,
-        }),
-      }
+      percentageMacros = { [toCalculate]: 100 };
+      remainingCalories = this._tee - providedCalories;
     }
+
+    return {
+      ...grams.macros,
+      ...percentagesToGrams({ percentageMacros, remainingCalories }),
+    };
   }
 };
