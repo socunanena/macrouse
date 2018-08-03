@@ -107,7 +107,17 @@ export default class Nutrition {
   }
 
   /**
-   * WiP
+   * Distributes the macros so that the total of the calories matches the calculated TEE.
+   *
+   * Input data may have different formats. The user can provide:
+   * - The percentages for each macro to calculate the grams values.
+   * - The value for one macro and the percentages for the remaining macros.
+   * - The value for two macros.
+   *
+   * @param {Object} macros
+   * @param {Number|string} macros.fat Fat in grams or percentage
+   * @param {Number|string} macros.protein Protein in grams or percentage
+   * @param {Number|string} macros.carbs Carbs in grams or percentage
    */
   distributeMacros({ fat, protein, carbs }) {
     if (!this._tee) {
