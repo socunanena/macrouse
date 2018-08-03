@@ -2,11 +2,13 @@ import { mapValues, reduce } from 'lodash';
 import { SUBJECT_FACTORS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/constants';
 
 function validateTypes(macroValues) {
-  return reduce(
+  let toCalculate;
+
+  const types = reduce(
     macroValues,
     (types, value, key) => {
       if (typeof value === 'undefined') {
-        types.toCalculate = key;
+        toCalculate = key;
       } else if (typeof value === 'number') {
         types.grams.count++;
         types.grams.macros[key] = value;
@@ -25,6 +27,12 @@ function validateTypes(macroValues) {
       grams: { count: 0, macros: {} },
     },
   );
+
+  if (toCalculate) {
+    types.percentages.macros[toCalculate] = types.grams.count === 2 ? 100 : 0;
+  }
+
+  return types;
 }
 
 function percentagesToGrams({ percentageMacros, remainingCalories }) {
@@ -96,13 +104,7 @@ export default class Nutrition {
       throw new Error('Subject TEE must be calculated to get the distributed macros');
     }
 
-    const { percentages, grams, toCalculate } = validateTypes({ fat, protein, carbs });
-
-    if (percentages.count === 2 && grams.count === 0) {
-      percentages.macros[toCalculate] = 0;
-    } else if (grams.count === 2) {
-      percentages.macros[toCalculate] = 100;
-    }
+    const { percentages, grams } = validateTypes({ fat, protein, carbs });
 
     const percentageMacros = percentages.macros;
     const providedCalories = reduce(grams.macros, (calories, value, key) => calories + value * MACROS_CALORIES[key], 0);
