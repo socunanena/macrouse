@@ -1,11 +1,17 @@
 import { mapValues, reduce } from 'lodash';
 import { SUBJECT_FACTORS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/constants';
 
-function validateTypes(macroValues) {
+/**
+ * @param {Object} macros
+ * @param {Number|string} macros.fat Fat in grams or percentage
+ * @param {Number|string} macros.protein Protein in grams or percentage
+ * @param {Number|string} macros.carbs Carbs in grams or percentage
+ */
+function validateTypes({ fat, protein, carbs }) {
   let toCalculate;
 
   const types = reduce(
-    macroValues,
+    { fat, protein, carbs },
     (types, value, key) => {
       if (typeof value === 'undefined') {
         toCalculate = key;
@@ -35,6 +41,11 @@ function validateTypes(macroValues) {
   return types;
 }
 
+/**
+ * @param {Object} params
+ * @param {Object} params.percentageMacros
+ * @param {number} params.remainingCalories
+ */
 function percentagesToGrams({ percentageMacros, remainingCalories }) {
   return mapValues(
     percentageMacros,
@@ -99,12 +110,12 @@ export default class Nutrition {
    * @param {Number|string} macros.protein Protein in grams or percentage
    * @param {Number|string} macros.carbs Carbs in grams or percentage
    */
-  distributeMacros({ fat, protein, carbs }) {
+  distributeMacros(macros) {
     if (!this._tee) {
       throw new Error('Subject TEE must be calculated to get the distributed macros');
     }
 
-    const { percentages, grams } = validateTypes({ fat, protein, carbs });
+    const { percentages, grams } = validateTypes(macros);
 
     const percentageMacros = percentages.macros;
     const providedCalories = reduce(grams.macros, (calories, value, key) => calories + value * MACROS_CALORIES[key], 0);
