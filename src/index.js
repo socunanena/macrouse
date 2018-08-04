@@ -13,17 +13,20 @@ function validateTypes({ fat, protein, carbs }) {
   const validatedTypes = reduce(
     { fat, protein, carbs },
     (types, value, key) => {
-      if (typeof value === 'undefined') {
-        toCalculate = key;
-      } else if (typeof value === 'number') {
-        types.grams.count += 1;
-        types.grams.macros[key] = value;
-      } else if (typeof value === 'string') {
-        const match = value.match(/^(\d+)%$/)[1];
-        if (match) {
-          types.percentages.count += 1;
-          types.percentages.macros[key] = match;
-        }
+      switch (typeof value) {
+        case 'number':
+          types.grams.count += 1;
+          types.grams.macros[key] = value;
+          break;
+        case 'string':
+          const match = value.match(/^(\d+)%$/)[1];
+          if (match) {
+            types.percentages.count += 1;
+            types.percentages.macros[key] = match;
+          }
+          break;
+        default:
+          toCalculate = key;
       }
 
       return types;
