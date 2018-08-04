@@ -8,9 +8,9 @@ import { SUBJECT_FACTORS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/co
  * @param {Number|string} macros.carbs Carbs in grams or percentage
  */
 function validateTypes({ fat, protein, carbs }) {
-  let toCalculate;
+  const toCalculate = [];
 
-  const validatedTypes = reduce(
+  const validated = reduce(
     { fat, protein, carbs },
     (types, value, key) => {
       switch (typeof value) {
@@ -26,7 +26,7 @@ function validateTypes({ fat, protein, carbs }) {
           }
           break;
         default:
-          toCalculate = key;
+          toCalculate.push(key);
       }
 
       return types;
@@ -37,11 +37,14 @@ function validateTypes({ fat, protein, carbs }) {
     },
   );
 
-  if (toCalculate) {
-    validatedTypes.percentages.macros[toCalculate] = validatedTypes.grams.count === 2 ? 100 : 0;
+  if (toCalculate.length) {
+    if (toCalculate.length > 1) {
+      throw new Error('There should be just one single macro to be calculated');
+    }
+    validated.percentages.macros[toCalculate.pop()] = validated.grams.count === 2 ? 100 : 0;
   }
 
-  return validatedTypes;
+  return validated;
 }
 
 /**
@@ -113,7 +116,7 @@ export default class Nutrition {
    * @param {Number|string} macros.protein Protein in grams or percentage
    * @param {Number|string} macros.carbs Carbs in grams or percentage
    */
-  distributeMacros(macros) {
+  distributeMacros(macros = {}) {
     if (!this._tee) {
       throw new Error('Subject TEE must be calculated to get the distributed macros');
     }

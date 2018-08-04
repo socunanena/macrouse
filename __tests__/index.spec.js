@@ -37,8 +37,22 @@ describe('Nutrition', () => {
     describe('when the TEE is not calculated yet', () => {
       it('should throw an error', () => {
         const nutrition = createClass();
+        const distributeMacros = () => nutrition.distributeMacros();
 
-        expect(nutrition.distributeMacros).toThrow(Error);
+        expect(distributeMacros)
+          .toThrowError('Subject TEE must be calculated to get the distributed macros');
+      });
+    });
+
+    describe('when there are more than one unprovided macros', () => {
+      it('should throw an error', () => {
+        const nutrition = createClass();
+        nutrition.tee({ exercise: 'medium' });
+
+        const distributeMacros = () => nutrition.distributeMacros({ fat: 120 });
+
+        expect(distributeMacros)
+        .toThrowError('There should be just one single macro to be calculated');
       });
     });
 
