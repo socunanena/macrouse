@@ -44,11 +44,6 @@ describe('Nutrition', () => {
 
     describe('when the macros are expressed in percentages', () => {
       describe('and they are all provided', () => {
-        describe('and their sum is not 100', () => {
-          it('should throw an error', () => {
-          });
-        });
-
         it('should calculate the corresponding calories for each macro', () => {
           const nutrition = createClass();
           nutrition.tee({ exercise: 'medium' });
@@ -68,11 +63,6 @@ describe('Nutrition', () => {
       });
 
       describe('and there are only two provided', () => {
-        describe('and their sum is not 100', () => {
-          it('should throw an error', () => {
-          });
-        });
-
         it('should put the third macro to 0 and calculate the corresponding calories for each macro', () => {
           const nutrition = createClass();
           nutrition.tee({ exercise: 'medium' });
@@ -106,11 +96,6 @@ describe('Nutrition', () => {
           protein: 140,
           carbs: 30,
         });
-      });
-    });
-
-    describe('when one macro is provided by value and one as a percentage', () => {
-      it('should calculate the corresponding calories for each macro', () => {
       });
     });
 
