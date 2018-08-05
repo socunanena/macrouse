@@ -3,6 +3,7 @@
   "rules": {
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
     "no-param-reassign": ["error", { "props": false }],
-    "object-curly-newline": ["error", { "multiline": true }]
+    "object-curly-newline": ["error", { "multiline": true }],
+    "no-case-declarations": ["off"]
   }
 }
