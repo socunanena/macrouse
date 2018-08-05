@@ -1,4 +1,4 @@
-const Nutrition = require('../src/index.js').default;
+const Macrouse = require('../src/index.js').default;
 
 function createClass() {
   const subjectData = {
@@ -8,36 +8,36 @@ function createClass() {
     gender: 'male',
   };
 
-  return new Nutrition(subjectData);
+  return new Macrouse(subjectData);
 }
 
-describe('Nutrition', () => {
+describe('Macrouse', () => {
   it('should be a class with the proper API: bmr()', () => {
-    expect(Nutrition).toBeInstanceOf(Function);
-    expect(Nutrition.prototype.bmr).toBeInstanceOf(Function);
+    expect(Macrouse).toBeInstanceOf(Function);
+    expect(Macrouse.prototype.bmr).toBeInstanceOf(Function);
   });
 
   describe('#bmr()', () => {
     it('should calculate the bmr', () => {
-      const nutrition = createClass();
+      const macrouse = createClass();
 
-      expect(nutrition.bmr()).toBe(2186);
+      expect(macrouse.bmr()).toBe(2186);
     });
   });
 
   describe('#tee({ exercise })', () => {
     it('should calculate the tee', () => {
-      const nutrition = createClass();
+      const macrouse = createClass();
 
-      expect(nutrition.tee({ exercise: 'medium' })).toBe(3388);
+      expect(macrouse.tee({ exercise: 'medium' })).toBe(3388);
     });
   });
 
   describe('#distributeMacros(options)', () => {
     describe('when the TEE is not calculated yet', () => {
       it('should throw an error', () => {
-        const nutrition = createClass();
-        const distributeMacros = () => nutrition.distributeMacros();
+        const macrouse = createClass();
+        const distributeMacros = () => macrouse.distributeMacros();
 
         expect(distributeMacros)
           .toThrowError('Subject TEE must be calculated to get the distributed macros');
@@ -46,10 +46,10 @@ describe('Nutrition', () => {
 
     describe('when there are more than one unprovided macros', () => {
       it('should throw an error', () => {
-        const nutrition = createClass();
-        nutrition.tee({ exercise: 'medium' });
+        const macrouse = createClass();
+        macrouse.tee({ exercise: 'medium' });
 
-        const distributeMacros = () => nutrition.distributeMacros({ fat: 120 });
+        const distributeMacros = () => macrouse.distributeMacros({ fat: 120 });
 
         expect(distributeMacros)
         .toThrowError('There should be just one single macro to be calculated');
@@ -59,8 +59,8 @@ describe('Nutrition', () => {
     describe('when the macros are expressed in percentages', () => {
       describe('and they are all provided', () => {
         it('should calculate the corresponding calories for each macro', () => {
-          const nutrition = createClass();
-          nutrition.tee({ exercise: 'medium' });
+          const macrouse = createClass();
+          macrouse.tee({ exercise: 'medium' });
 
           const macros = {
             fat: '50%',
@@ -68,7 +68,7 @@ describe('Nutrition', () => {
             carbs: '30%',
           };
 
-          expect(nutrition.distributeMacros(macros)).toEqual({
+          expect(macrouse.distributeMacros(macros)).toEqual({
             fat: 188,
             protein: 169,
             carbs: 254,
@@ -78,15 +78,15 @@ describe('Nutrition', () => {
 
       describe('and there are only two provided', () => {
         it('should put the third macro to 0 and calculate the corresponding calories for each macro', () => {
-          const nutrition = createClass();
-          nutrition.tee({ exercise: 'medium' });
+          const macrouse = createClass();
+          macrouse.tee({ exercise: 'medium' });
 
           const macros = {
             fat: '70%',
             protein: '30%',
           };
 
-          expect(nutrition.distributeMacros(macros)).toEqual({
+          expect(macrouse.distributeMacros(macros)).toEqual({
             fat: 264,
             protein: 254,
             carbs: 0,
@@ -97,15 +97,15 @@ describe('Nutrition', () => {
 
     describe('when two macros are provided by value', () => {
       it('should calculate the corresponding calories for the third macro', () => {
-        const nutrition = createClass();
-        nutrition.tee({ exercise: 'medium' });
+        const macrouse = createClass();
+        macrouse.tee({ exercise: 'medium' });
 
         const macros = {
           carbs: 30,
           protein: 140,
         };
 
-        expect(nutrition.distributeMacros(macros)).toEqual({
+        expect(macrouse.distributeMacros(macros)).toEqual({
           fat: 301,
           protein: 140,
           carbs: 30,
@@ -115,8 +115,8 @@ describe('Nutrition', () => {
 
     describe('when one macro is provided by value and the rest as percentages', () => {
       it('should calculate the corresponding calories for each macro', () => {
-        const nutrition = createClass();
-        nutrition.tee({ exercise: 'medium' });
+        const macrouse = createClass();
+        macrouse.tee({ exercise: 'medium' });
 
         const macros = {
           fat: '70%',
@@ -124,7 +124,7 @@ describe('Nutrition', () => {
           carbs: 50,
         };
 
-        expect(nutrition.distributeMacros(macros)).toEqual({
+        expect(macrouse.distributeMacros(macros)).toEqual({
           fat: 248,
           protein: 239,
           carbs: 50,

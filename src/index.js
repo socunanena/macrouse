@@ -59,7 +59,7 @@ function percentagesToGrams({ percentageMacros, remainingCalories }) {
   );
 }
 
-export default class Nutrition {
+export default class Macrouse {
   /**
    * @param {Number} weight Subject weight in kgs
    * @param {Number} height Subject height in cms

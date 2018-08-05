@@ -1,9 +1,9 @@
-# Nutrition
+# Macrouse
 
 ## Installation
 
 ```shell
-$ git clone git@github.com:socunanena/nutrition.git
+$ git clone git@github.com:socunanena/macrouse.git
 ```
 
 ## Usage
@@ -11,7 +11,7 @@ $ git clone git@github.com:socunanena/nutrition.git
 ### Building the project
 
 ```shell
-$ cd nutrition
+$ cd macrouse
 $ yarn
 $ yarn run build
 ```
@@ -19,7 +19,7 @@ $ yarn run build
 ### Running the app
 
 ```javascript
-var Nutrition = require('./dist/index').default;
+var Macrouse = require('./dist/index').default;
 
 const subjectData = {
   weight: 70,
@@ -27,14 +27,14 @@ const subjectData = {
   age: 38,
   gender: 'male',
 };
-const nutrition = new Nutrition(subjectData);
+const macrouse = new Macrouse(subjectData);
 
 subjectData.bmr();
 ```
 
 ## Documentation
 
-### Nutrition (class)
+### Macrouse (class)
 
 #### constructor({ weight, height, age, gender })
 

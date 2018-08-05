@@ -1,8 +1,8 @@
 {
-  "name": "nutrition",
+  "name": "macrouse",
   "version": "0.1.0",
   "main": "index.js",
-  "repository": "git@github.com:socunanena/nutrition.git",
+  "repository": "git@github.com:socunanena/macrouse.git",
   "author": "Natàlia <natalia.cavi@gmail.com>",
   "license": "Apache-2.0",
   "scripts": {
