@@ -5,6 +5,14 @@
   "repository": "git@github.com:socunanena/macrouse.git",
   "author": "Natàlia <natalia.cavi@gmail.com>",
   "license": "Apache-2.0",
+  "keywords": [
+    "nutrition",
+    "macros",
+    "macronutrients",
+    "fat",
+    "protein",
+    "carbs"
+  ],
   "scripts": {
     "build": "babel ./src --out-dir dist",
     "test": "jest",
