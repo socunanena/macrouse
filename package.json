@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "build": "webpack",
+    "lint": "eslint src",
     "test": "jest",
     "tdd": "jest --watch"
   },
