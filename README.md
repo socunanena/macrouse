@@ -3,23 +3,15 @@
 ## Installation
 
 ```shell
-$ git clone git@github.com:socunanena/macrouse.git
+$ yarn add macrouse
 ```
 
 ## Usage
 
-### Building the project
-
-```shell
-$ cd macrouse
-$ yarn
-$ yarn run build
-```
-
 ### Running the app
 
 ```javascript
-var Macrouse = require('./dist/index').default;
+import Macrouse from 'macrouse';
 
 const subjectData = {
   weight: 70,
@@ -29,7 +21,16 @@ const subjectData = {
 };
 const macrouse = new Macrouse(subjectData);
 
-subjectData.bmr();
+macrouse.bmr();
+
+macrouse.tee({ exercise: 'low' });
+
+const macros = {
+  fat: '50%',
+  protein: '20%',
+  carbs: '30%',
+};
+macrouse.distributeMacros(macros);
 ```
 
 ## Documentation
