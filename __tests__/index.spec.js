@@ -6,15 +6,18 @@ function createClass() {
     height: 180,
     age: 38,
     gender: 'male',
+    exercise: 'medium',
   };
 
   return new Macrouse(subjectData);
 }
 
 describe('Macrouse', () => {
-  it('should be a class with the proper API: bmr()', () => {
+  it('should be a class with the proper API: bmr(), tee(), distributeMacros()', () => {
     expect(Macrouse).toBeInstanceOf(Function);
     expect(Macrouse.prototype.bmr).toBeInstanceOf(Function);
+    expect(Macrouse.prototype.tee).toBeInstanceOf(Function);
+    expect(Macrouse.prototype.distributeMacros).toBeInstanceOf(Function);
   });
 
   describe('#bmr()', () => {
@@ -25,11 +28,11 @@ describe('Macrouse', () => {
     });
   });
 
-  describe('#tee({ exercise })', () => {
+  describe('#tee()', () => {
     it('should calculate the tee', () => {
       const macrouse = createClass();
 
-      expect(macrouse.tee({ exercise: 'medium' })).toBe(3388);
+      expect(macrouse.tee()).toBe(3388);
     });
   });
 

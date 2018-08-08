@@ -65,14 +65,17 @@ export default class Macrouse {
    * @param {Number} height Subject height in cms
    * @param {Number} age Subject age
    * @param {string} gender Subject gender. Allowed values: 'male', 'female'
+   * @param {string} exercise Subject exercise.
+   *                          Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
    */
-  constructor({ weight, height, age, gender }) {
+  constructor({ weight, height, age, gender, exercise }) {
     // TODO check input values
 
     this._weight = weight;
     this._height = height;
     this._age = age;
     this._gender = gender;
+    this._exercise = exercise;
   }
 
   /**
@@ -91,11 +94,9 @@ export default class Macrouse {
 
   /**
    * Gets de TEE (Total Energy Expenditure) for the configured subject.
-   *
-   * @param {string} exercise Exercise factor
    */
-  tee({ exercise }) {
-    const exerciseFactor = EXERCISE_FACTORS[exercise];
+  tee() {
+    const exerciseFactor = EXERCISE_FACTORS[this._exercise];
     const bmr = this._bmr || this.bmr();
 
     this._tee = Math.round(bmr * exerciseFactor);
