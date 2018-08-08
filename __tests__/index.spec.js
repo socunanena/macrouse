@@ -21,7 +21,7 @@ describe('Macrouse', () => {
   });
 
   describe('#bmr()', () => {
-    it('should calculate the bmr', () => {
+    it('should return the bmr', () => {
       const macrouse = createClass();
 
       expect(macrouse.bmr()).toBe(2186);
@@ -29,24 +29,22 @@ describe('Macrouse', () => {
   });
 
   describe('#tee()', () => {
-    it('should calculate the tee', () => {
+    it('should return the tee', () => {
       const macrouse = createClass();
 
       expect(macrouse.tee()).toBe(3388);
     });
+
+    describe('when the user exercise is updated', () => {
+      it('should recalculate the state (bmr & tee)', () => {
+        const macrouse = createClass();
+
+        expect(macrouse.exercise('high').tee()).toBe(3771);
+      });
+    });
   });
 
   describe('#distributeMacros(options)', () => {
-    describe('when the TEE is not calculated yet', () => {
-      it('should throw an error', () => {
-        const macrouse = createClass();
-        const distributeMacros = () => macrouse.distributeMacros();
-
-        expect(distributeMacros)
-          .toThrowError('Subject TEE must be calculated to get the distributed macros');
-      });
-    });
-
     describe('when there are more than one unprovided macros', () => {
       it('should throw an error', () => {
         const macrouse = createClass();

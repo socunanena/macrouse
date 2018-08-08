@@ -71,24 +71,79 @@ export default class Macrouse {
   constructor({ weight, height, age, gender, exercise }) {
     // TODO check input values
 
-    this._weight = weight;
-    this._height = height;
-    this._age = age;
-    this._gender = gender;
-    this._exercise = exercise;
+    const computeState = this._computeState.bind(this);
+
+    this._user = new Proxy(
+      { weight, height, age, gender, exercise },
+      {
+        set: (object, property, value) => {
+          object[property] = value;
+          computeState();
+
+          return true;
+        },
+      },
+    );
+
+    computeState();
+  }
+
+  _computeState() {
+    this._calculateBmr();
+    this._calculateTee();
+  }
+
+  _calculateBmr() {
+    const factors = SUBJECT_FACTORS[this._user.gender];
+
+    this._bmr = Math.round(
+      factors.base
+      + factors.weight * this._user.weight
+      + factors.height * this._user.height
+      + factors.age * this._user.age,
+    );
+  }
+
+  _calculateTee() {
+    const exerciseFactor = EXERCISE_FACTORS[this._user.exercise];
+
+    this._tee = Math.round(this._bmr * exerciseFactor);
+  }
+
+  weight(weight) {
+    this._user.weight = weight;
+
+    return this;
+  }
+
+  height(height) {
+    this._user.height = height;
+
+    return this;
+  }
+
+  age(age) {
+    this._user.age = age;
+
+    return this;
+  }
+
+  gender(gender) {
+    this._user.gender = gender;
+
+    return this;
+  }
+
+  exercise(exercise) {
+    this._user.exercise = exercise;
+
+    return this;
   }
 
   /**
    * Gets the BMR (Basal Metabolic Rate) for the subject using the Harris-Benedict equation.
    */
   bmr() {
-    const factors = SUBJECT_FACTORS[this._gender];
-
-    this._bmr = Math.round(factors.base
-      + factors.weight * this._weight
-      + factors.height * this._height
-      + factors.age * this._age);
-
     return this._bmr;
   }
 
@@ -96,11 +151,6 @@ export default class Macrouse {
    * Gets de TEE (Total Energy Expenditure) for the configured subject.
    */
   tee() {
-    const exerciseFactor = EXERCISE_FACTORS[this._exercise];
-    const bmr = this._bmr || this.bmr();
-
-    this._tee = Math.round(bmr * exerciseFactor);
-
     return this._tee;
   }
 
@@ -118,10 +168,6 @@ export default class Macrouse {
    * @param {Number|string} macros.carbs Carbs in grams or percentage
    */
   distributeMacros(macros = {}) {
-    if (!this._tee) {
-      throw new Error('Subject TEE must be calculated to get the distributed macros');
-    }
-
     const { percentages, grams } = validateTypes(macros);
 
     const percentageMacros = percentages.macros;
