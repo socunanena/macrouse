@@ -48,12 +48,11 @@ describe('Macrouse', () => {
     describe('when there are more than one unprovided macros', () => {
       it('should throw an error', () => {
         const macrouse = createClass();
-        macrouse.tee({ exercise: 'medium' });
 
         const distributeMacros = () => macrouse.distributeMacros({ fat: 120 });
 
         expect(distributeMacros)
-        .toThrowError('There should be just one single macro to be calculated');
+          .toThrowError('There should be just one single macro to be calculated');
       });
     });
 
@@ -61,7 +60,6 @@ describe('Macrouse', () => {
       describe('and they are all provided', () => {
         it('should calculate the corresponding calories for each macro', () => {
           const macrouse = createClass();
-          macrouse.tee({ exercise: 'medium' });
 
           const macros = {
             fat: '50%',
@@ -80,7 +78,6 @@ describe('Macrouse', () => {
       describe('and there are only two provided', () => {
         it('should put the third macro to 0 and calculate the corresponding calories for each macro', () => {
           const macrouse = createClass();
-          macrouse.tee({ exercise: 'medium' });
 
           const macros = {
             fat: '70%',
@@ -99,7 +96,6 @@ describe('Macrouse', () => {
     describe('when two macros are provided by value', () => {
       it('should calculate the corresponding calories for the third macro', () => {
         const macrouse = createClass();
-        macrouse.tee({ exercise: 'medium' });
 
         const macros = {
           carbs: 30,
@@ -117,7 +113,6 @@ describe('Macrouse', () => {
     describe('when one macro is provided by value and the rest as percentages', () => {
       it('should calculate the corresponding calories for each macro', () => {
         const macrouse = createClass();
-        macrouse.tee({ exercise: 'medium' });
 
         const macros = {
           fat: '70%',

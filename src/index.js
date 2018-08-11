@@ -3,9 +3,9 @@ import { SUBJECT_FACTORS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/co
 
 /**
  * @param {Object} macros
- * @param {Number|string} macros.fat Fat in grams or percentage
- * @param {Number|string} macros.protein Protein in grams or percentage
- * @param {Number|string} macros.carbs Carbs in grams or percentage
+ * @param {number|string} macros.fat Fat in grams or percentage
+ * @param {number|string} macros.protein Protein in grams or percentage
+ * @param {number|string} macros.carbs Carbs in grams or percentage
  */
 function validateTypes({ fat, protein, carbs }) {
   const toCalculate = [];
@@ -61,9 +61,9 @@ function percentagesToGrams({ percentageMacros, remainingCalories }) {
 
 export default class Macrouse {
   /**
-   * @param {Number} weight Subject weight in kgs
-   * @param {Number} height Subject height in cms
-   * @param {Number} age Subject age
+   * @param {number} weight Subject weight in kgs
+   * @param {number} height Subject height in cms
+   * @param {number} age Subject age
    * @param {string} gender Subject gender. Allowed values: 'male', 'female'
    * @param {string} exercise Subject exercise.
    *                          Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
@@ -110,30 +110,45 @@ export default class Macrouse {
     this._tee = Math.round(this._bmr * exerciseFactor);
   }
 
+  /**
+   * @param {number} weight User weight
+   */
   weight(weight) {
     this._user.weight = weight;
 
     return this;
   }
 
+  /**
+   * @param {number} height User height
+   */
   height(height) {
     this._user.height = height;
 
     return this;
   }
 
+  /**
+   * @param {number} age User age
+   */
   age(age) {
     this._user.age = age;
 
     return this;
   }
 
+  /**
+   * @param {string} gender User gender
+   */
   gender(gender) {
     this._user.gender = gender;
 
     return this;
   }
 
+  /**
+   * @param {string} exercise User exercise
+   */
   exercise(exercise) {
     this._user.exercise = exercise;
 
@@ -163,9 +178,9 @@ export default class Macrouse {
    * - The value for two macros.
    *
    * @param {Object} macros
-   * @param {Number|string} macros.fat Fat in grams or percentage
-   * @param {Number|string} macros.protein Protein in grams or percentage
-   * @param {Number|string} macros.carbs Carbs in grams or percentage
+   * @param {number|string} macros.fat Fat in grams or percentage
+   * @param {number|string} macros.protein Protein in grams or percentage
+   * @param {number|string} macros.carbs Carbs in grams or percentage
    */
   distributeMacros(macros = {}) {
     const { percentages, grams } = validateTypes(macros);
