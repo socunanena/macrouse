@@ -1,4 +1,4 @@
-export const SUBJECT_FACTORS = {
+export const USER_FACTORS = {
   male: {
     base: 66.473,
     weight: 13.7516,

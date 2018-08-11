@@ -13,13 +13,13 @@ $ yarn add macrouse
 ```javascript
 import Macrouse from 'macrouse';
 
-const subjectData = {
+const userData = {
   weight: 70,
   height: 180,
   age: 38,
   gender: 'male',
 };
-const macrouse = new Macrouse(subjectData);
+const macrouse = new Macrouse(userData);
 
 macrouse.bmr();
 
@@ -41,16 +41,16 @@ macrouse.distributeMacros(macros);
 
 | Param | Type | Description |
 | --- | --- | --- |
-| weight | <code>Number</code> | Subject weight in kgs |
-| height | <code>Number</code> | Subject height in cms |
-| age | <code>Number</code> | Subject age |
-| gender | <code>string</code> | Subject gender. Allowed values: 'man', 'woman' |
+| weight | <code>Number</code> | User weight in kgs |
+| height | <code>Number</code> | User height in cms |
+| age | <code>Number</code> | User age |
+| gender | <code>string</code> | User gender. Allowed values: 'man', 'woman' |
 
 #### bmr()
-Gets the BMR (Basal Metabolic Rate) for the configured subject using the Harris-Benedict equation.
+Gets the BMR (Basal Metabolic Rate) for the configured user using the Harris-Benedict equation.
 
 #### tee({ exercise })
-Gets de TEE (Total Energy Expenditure) for the configured subject.
+Gets de TEE (Total Energy Expenditure) for the configured user.
 
 | Param | Type | Description |
 | --- | --- | --- |

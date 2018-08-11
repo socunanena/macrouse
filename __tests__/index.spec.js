@@ -1,7 +1,7 @@
 const Macrouse = require('../src/index.js').default;
 
 function createClass() {
-  const subjectData = {
+  const userData = {
     weight: 70,
     height: 180,
     age: 38,
@@ -9,7 +9,7 @@ function createClass() {
     exercise: 'medium',
   };
 
-  return new Macrouse(subjectData);
+  return new Macrouse(userData);
 }
 
 describe('Macrouse', () => {

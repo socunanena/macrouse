@@ -1,5 +1,5 @@
 import { mapValues, reduce } from 'lodash';
-import { SUBJECT_FACTORS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/constants';
+import { USER_FACTORS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/constants';
 
 /**
  * @param {Object} macros
@@ -61,11 +61,11 @@ function percentagesToGrams({ percentageMacros, remainingCalories }) {
 
 export default class Macrouse {
   /**
-   * @param {number} weight Subject weight in kgs
-   * @param {number} height Subject height in cms
-   * @param {number} age Subject age
-   * @param {string} gender Subject gender. Allowed values: 'male', 'female'
-   * @param {string} exercise Subject exercise.
+   * @param {number} weight User weight in kgs
+   * @param {number} height User height in cms
+   * @param {number} age User age
+   * @param {string} gender User gender. Allowed values: 'male', 'female'
+   * @param {string} exercise User exercise.
    *                          Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
    */
   constructor({ weight, height, age, gender, exercise }) {
@@ -94,7 +94,7 @@ export default class Macrouse {
   }
 
   _calculateBmr() {
-    const factors = SUBJECT_FACTORS[this._user.gender];
+    const factors = USER_FACTORS[this._user.gender];
 
     this._bmr = Math.round(
       factors.base
@@ -156,14 +156,14 @@ export default class Macrouse {
   }
 
   /**
-   * Gets the BMR (Basal Metabolic Rate) for the subject using the Harris-Benedict equation.
+   * Gets the BMR (Basal Metabolic Rate) for the user using the Harris-Benedict equation.
    */
   bmr() {
     return this._bmr;
   }
 
   /**
-   * Gets de TEE (Total Energy Expenditure) for the configured subject.
+   * Gets de TEE (Total Energy Expenditure) for the configured user.
    */
   tee() {
     return this._tee;
