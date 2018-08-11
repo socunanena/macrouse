@@ -1,25 +1,23 @@
-# Macrouse
-
-## Installation
+# Installation
 
 ```shell
 $ yarn add macrouse
 ```
 
-## Usage
+# Usage
 
-### Running the app
+## Running the app
 
 ```javascript
 import Macrouse from 'macrouse';
 
-const subjectData = {
+const userData = {
   weight: 70,
   height: 180,
   age: 38,
   gender: 'male',
 };
-const macrouse = new Macrouse(subjectData);
+const macrouse = new Macrouse(userData);
 
 macrouse.bmr();
 
@@ -33,30 +31,61 @@ const macros = {
 macrouse.distributeMacros(macros);
 ```
 
-## Documentation
+# Documentation
 
-### Macrouse (class)
+## Macrouse (class)
 
-#### constructor({ weight, height, age, gender })
+### constructor({ weight, height, age, gender, exercise })
 
 | Param | Type | Description |
 | --- | --- | --- |
-| weight | <code>Number</code> | Subject weight in kgs |
-| height | <code>Number</code> | Subject height in cms |
-| age | <code>Number</code> | Subject age |
-| gender | <code>string</code> | Subject gender. Allowed values: 'man', 'woman' |
+| weight | <code>number</code> | User weight in kgs |
+| height | <code>number</code> | User height in cms |
+| age | <code>number</code> | User age |
+| gender | <code>string</code> | User gender. Allowed values: 'man', 'woman' |
+| exercise | <code>string</code> | User exercise. Allowed values: 'none', 'low', 'medium', 'high', 'extreme' |
 
-#### bmr()
-Gets the BMR (Basal Metabolic Rate) for the configured subject using the Harris-Benedict equation.
+### weight(weight)
 
-#### tee({ exercise })
-Gets de TEE (Total Energy Expenditure) for the configured subject.
+| Param | Type | Description |
+| --- | --- | --- |
+| weight | <code>number</code> | User weight |
+
+### height(height)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| height | <code>number</code> | User height |
+
+### age(age)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| age | <code>number</code> | User age |
+
+### gender(gender)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gender | <code>string</code> | User gender |
+
+### exercise(exercise)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| exercise | <code>string</code> | User exercise |
+
+### bmr()
+Gets the BMR (Basal Metabolic Rate) for the configured user using the Harris-Benedict equation.
+
+### tee()
+Gets de TEE (Total Energy Expenditure) for the configured user.
 
 | Param | Type | Description |
 | --- | --- | --- |
 | exercise | <code>string</code> | Exercise factor |
 
-#### distributeMacros(macros)
+### distributeMacros(macros)
 Distributes the macros so that the total of the calories matches the calculated TEE.
 
 Input data may have different formats. The user can provide:
@@ -99,6 +128,6 @@ macros = {
 | Param | Type | Description |
 | --- | --- | --- |
 | macros | <code>Object</code> |  |
-| macros.fat | <code>Number</code> \| <code>string</code> | Fat in grams or percentage |
-| macros.protein | <code>Number</code> \| <code>string</code> | Protein in grams or percentage |
-| macros.carbs | <code>Number</code> \| <code>string</code> | Carbs in grams or percentage |
+| macros.fat | <code>number</code> \| <code>string</code> | Fat in grams or percentage |
+| macros.protein | <code>number</code> \| <code>string</code> | Protein in grams or percentage |
+| macros.carbs | <code>number</code> \| <code>string</code> | Carbs in grams or percentage |

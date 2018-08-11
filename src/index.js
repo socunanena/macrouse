@@ -1,11 +1,11 @@
 import { mapValues, reduce } from 'lodash';
-import { SUBJECT_FACTORS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/constants';
+import { USER_FACTORS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/constants';
 
 /**
  * @param {Object} macros
- * @param {Number|string} macros.fat Fat in grams or percentage
- * @param {Number|string} macros.protein Protein in grams or percentage
- * @param {Number|string} macros.carbs Carbs in grams or percentage
+ * @param {number|string} macros.fat Fat in grams or percentage
+ * @param {number|string} macros.protein Protein in grams or percentage
+ * @param {number|string} macros.carbs Carbs in grams or percentage
  */
 function validateTypes({ fat, protein, carbs }) {
   const toCalculate = [];
@@ -61,46 +61,121 @@ function percentagesToGrams({ percentageMacros, remainingCalories }) {
 
 export default class Macrouse {
   /**
-   * @param {Number} weight Subject weight in kgs
-   * @param {Number} height Subject height in cms
-   * @param {Number} age Subject age
-   * @param {string} gender Subject gender. Allowed values: 'male', 'female'
-   * @param {string} exercise Subject exercise.
+   * @param {number} weight User weight in kgs
+   * @param {number} height User height in cms
+   * @param {number} age User age
+   * @param {string} gender User gender. Allowed values: 'male', 'female'
+   * @param {string} exercise User exercise.
    *                          Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
    */
   constructor({ weight, height, age, gender, exercise }) {
     // TODO check input values
 
-    this._weight = weight;
-    this._height = height;
-    this._age = age;
-    this._gender = gender;
-    this._exercise = exercise;
+    const computeState = this._computeState.bind(this);
+
+    this._user = new Proxy(
+      { weight, height, age, gender, exercise },
+      {
+        set: (object, property, value) => {
+          object[property] = value;
+          computeState();
+
+          return true;
+        },
+      },
+    );
+
+    computeState();
+  }
+
+  _computeState() {
+    this._calculateBmr();
+    this._calculateTee();
+  }
+
+  _calculateBmr() {
+    const factors = USER_FACTORS[this._user.gender];
+
+    this._bmr = Math.round(
+      factors.base
+      + factors.weight * this._user.weight
+      + factors.height * this._user.height
+      + factors.age * this._user.age,
+    );
+  }
+
+  _calculateTee() {
+    const exerciseFactor = EXERCISE_FACTORS[this._user.exercise];
+
+    this._tee = Math.round(this._bmr * exerciseFactor);
   }
 
   /**
-   * Gets the BMR (Basal Metabolic Rate) for the subject using the Harris-Benedict equation.
+   * Sets the user weight.
+   *
+   * @param {number} weight User weight
+   */
+  weight(weight) {
+    this._user.weight = weight;
+
+    return this;
+  }
+
+  /**
+   * Sets the user height.
+   *
+   * @param {number} height User height
+   */
+  height(height) {
+    this._user.height = height;
+
+    return this;
+  }
+
+  /**
+   * Sets the user age.
+   *
+   * @param {number} age User age
+   */
+  age(age) {
+    this._user.age = age;
+
+    return this;
+  }
+
+  /**
+   * Sets the user gender.
+   *
+   * @param {string} gender User gender
+   */
+  gender(gender) {
+    this._user.gender = gender;
+
+    return this;
+  }
+
+  /**
+   * Sets the user exercise.
+   *
+   * @param {string} exercise User exercise
+   */
+  exercise(exercise) {
+    this._user.exercise = exercise;
+
+    return this;
+  }
+
+  /**
+   * Gets the BMR (Basal Metabolic Rate) for the user using the Harris-Benedict equation.
    */
   bmr() {
-    const factors = SUBJECT_FACTORS[this._gender];
-
-    this._bmr = Math.round(factors.base
-      + factors.weight * this._weight
-      + factors.height * this._height
-      + factors.age * this._age);
-
     return this._bmr;
   }
 
   /**
-   * Gets de TEE (Total Energy Expenditure) for the configured subject.
+   * Gets de TEE (Total Energy Expenditure) for the configured user.
    */
   tee() {
-    const exerciseFactor = EXERCISE_FACTORS[this._exercise];
-    const bmr = this._bmr || this.bmr();
-
-    this._tee = Math.round(bmr * exerciseFactor);
-
     return this._tee;
   }
 
@@ -113,15 +188,11 @@ export default class Macrouse {
    * - The value for two macros.
    *
    * @param {Object} macros
-   * @param {Number|string} macros.fat Fat in grams or percentage
-   * @param {Number|string} macros.protein Protein in grams or percentage
-   * @param {Number|string} macros.carbs Carbs in grams or percentage
+   * @param {number|string} macros.fat Fat in grams or percentage
+   * @param {number|string} macros.protein Protein in grams or percentage
+   * @param {number|string} macros.carbs Carbs in grams or percentage
    */
   distributeMacros(macros = {}) {
-    if (!this._tee) {
-      throw new Error('Subject TEE must be calculated to get the distributed macros');
-    }
-
     const { percentages, grams } = validateTypes(macros);
 
     const percentageMacros = percentages.macros;
