@@ -111,6 +111,8 @@ export default class Macrouse {
   }
 
   /**
+   * Sets the user weight.
+   *
    * @param {number} weight User weight
    */
   weight(weight) {
@@ -120,6 +122,8 @@ export default class Macrouse {
   }
 
   /**
+   * Sets the user height.
+   *
    * @param {number} height User height
    */
   height(height) {
@@ -129,6 +133,8 @@ export default class Macrouse {
   }
 
   /**
+   * Sets the user age.
+   *
    * @param {number} age User age
    */
   age(age) {
@@ -138,6 +144,8 @@ export default class Macrouse {
   }
 
   /**
+   * Sets the user gender.
+   *
    * @param {string} gender User gender
    */
   gender(gender) {
@@ -147,6 +155,8 @@ export default class Macrouse {
   }
 
   /**
+   * Sets the user exercise.
+   *
    * @param {string} exercise User exercise
    */
   exercise(exercise) {
