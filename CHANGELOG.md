@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Entry point exposing the default module
 
-## 1.0.1 - 2018-08-05
+## [1.0.1] - 2018-08-05
 ### Added
 - Webpack
 
