@@ -114,7 +114,8 @@ export default class Macrouse {
   /**
    * Sets the user exercise.
    *
-   * @param {string} exercise User exercise. Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
+   * @param {string} exercise User exercise.
+   *                          Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
    */
   exercise(exercise) {
     this._user.exercise = exercise;
