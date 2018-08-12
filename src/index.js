@@ -1,83 +1,40 @@
 import { mapValues, reduce } from 'lodash';
 import { USER_FACTORS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/constants';
-
-/**
- * @param {Object} macros
- * @param {number|string} macros.fat Fat in grams or percentage
- * @param {number|string} macros.protein Protein in grams or percentage
- * @param {number|string} macros.carbs Carbs in grams or percentage
- */
-function validateTypes({ fat, protein, carbs }) {
-  const toCalculate = [];
-
-  const validated = reduce(
-    { fat, protein, carbs },
-    (types, value, key) => {
-      switch (typeof value) {
-        case 'number':
-          types.grams.count += 1;
-          types.grams.macros[key] = value;
-          break;
-        case 'string':
-          const match = value.match(/^(\d+)%$/)[1];
-          if (match) {
-            types.percentages.count += 1;
-            types.percentages.macros[key] = match;
-          }
-          break;
-        default:
-          toCalculate.push(key);
-      }
-
-      return types;
-    },
-    {
-      percentages: { count: 0, macros: {} },
-      grams: { count: 0, macros: {} },
-    },
-  );
-
-  if (toCalculate.length) {
-    if (toCalculate.length > 1) {
-      throw new Error('There should be just one single macro to be calculated');
-    }
-    validated.percentages.macros[toCalculate.pop()] = validated.grams.count === 2 ? 100 : 0;
-  }
-
-  return validated;
-}
+import { validateUser, validateMacrosTypes } from './validators';
 
 /**
  * @param {Object} params
- * @param {Object} params.percentageMacros
+ * @param {Object} params.percentages
  * @param {number} params.remainingCalories
  */
-function percentagesToGrams({ percentageMacros, remainingCalories }) {
+function percentagesToGrams({ percentages, remainingCalories }) {
   return mapValues(
-    percentageMacros,
+    percentages,
     (value, key) => Math.round((remainingCalories * (value / 100)) / MACROS_CALORIES[key]),
   );
 }
 
 export default class Macrouse {
   /**
-   * @param {number} weight User weight in kgs
-   * @param {number} height User height in cms
-   * @param {number} age User age
-   * @param {string} gender User gender. Allowed values: 'male', 'female'
-   * @param {string} exercise User exercise.
-   *                          Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
+   * @param {Object} user
+   * @param {number} user.weight User weight in kgs
+   * @param {number} user.height User height in cms
+   * @param {number} user.age User age
+   * @param {string} user.gender User gender. Allowed values: 'male', 'female'
+   * @param {string} user.exercise User exercise.
+   *                               Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
    */
-  constructor({ weight, height, age, gender, exercise }) {
-    // TODO check input values
+  constructor(user) {
+    validateUser(user);
 
     const computeState = this._computeState.bind(this);
 
     this._user = new Proxy(
-      { weight, height, age, gender, exercise },
+      user,
       {
         set: (object, property, value) => {
           object[property] = value;
+          validateUser(object);
           computeState();
 
           return true;
@@ -193,16 +150,15 @@ export default class Macrouse {
    * @param {number|string} macros.carbs Carbs in grams or percentage
    */
   distributeMacros(macros = {}) {
-    const { percentages, grams } = validateTypes(macros);
+    const { percentages, grams } = validateMacrosTypes(macros);
 
-    const percentageMacros = percentages.macros;
     const gramsToCalories = (calories, value, key) => calories + value * MACROS_CALORIES[key];
-    const providedCalories = reduce(grams.macros, gramsToCalories, 0);
+    const providedCalories = reduce(grams, gramsToCalories, 0);
     const remainingCalories = this._tee - providedCalories;
 
     return {
-      ...grams.macros,
-      ...percentagesToGrams({ percentageMacros, remainingCalories }),
+      ...grams,
+      ...percentagesToGrams({ percentages, remainingCalories }),
     };
   }
 }

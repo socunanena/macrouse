@@ -13,11 +13,34 @@ function createClass() {
 }
 
 describe('Macrouse', () => {
-  it('should be a class with the proper API: bmr(), tee(), distributeMacros()', () => {
+  it('should be a class with the proper API', () => {
     expect(Macrouse).toBeInstanceOf(Function);
+    expect(Macrouse.prototype.weight).toBeInstanceOf(Function);
+    expect(Macrouse.prototype.height).toBeInstanceOf(Function);
+    expect(Macrouse.prototype.age).toBeInstanceOf(Function);
+    expect(Macrouse.prototype.gender).toBeInstanceOf(Function);
+    expect(Macrouse.prototype.exercise).toBeInstanceOf(Function);
     expect(Macrouse.prototype.bmr).toBeInstanceOf(Function);
     expect(Macrouse.prototype.tee).toBeInstanceOf(Function);
     expect(Macrouse.prototype.distributeMacros).toBeInstanceOf(Function);
+  });
+
+  describe('#construct()', () => {
+    describe('when the input data does not pass the validation', () => {
+      it('should throw an error', () => {
+        const userData = {
+          weight: -5,
+          height: 180,
+          age: 38,
+          gender: 'male',
+          exercise: 'medium',
+        };
+
+        const instantiateMacrouse = () => new Macrouse(userData);
+
+        expect(instantiateMacrouse).toThrowError();
+      });
+    });
   });
 
   describe('#bmr()', () => {
@@ -41,6 +64,16 @@ describe('Macrouse', () => {
 
         expect(macrouse.exercise('high').tee()).toBe(3771);
       });
+
+      describe('and the value is NOT correct', () => {
+        it('should throw an error', () => {
+          const macrouse = createClass();
+
+          const updateValue = () => macrouse.exercise('hard');
+
+          expect(updateValue).toThrowError();
+        });
+      })
     });
   });
 
