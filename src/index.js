@@ -1,5 +1,6 @@
 import { mapValues, reduce } from 'lodash';
 import { USER_FACTORS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/constants';
+import { validateUser } from './validators';
 
 /**
  * @param {Object} macros
@@ -61,23 +62,25 @@ function percentagesToGrams({ percentageMacros, remainingCalories }) {
 
 export default class Macrouse {
   /**
-   * @param {number} weight User weight in kgs
-   * @param {number} height User height in cms
-   * @param {number} age User age
-   * @param {string} gender User gender. Allowed values: 'male', 'female'
-   * @param {string} exercise User exercise.
-   *                          Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
+   * @param {Object} user
+   * @param {number} user.weight User weight in kgs
+   * @param {number} user.height User height in cms
+   * @param {number} user.age User age
+   * @param {string} user.gender User gender. Allowed values: 'male', 'female'
+   * @param {string} user.exercise User exercise.
+   *                               Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
    */
-  constructor({ weight, height, age, gender, exercise }) {
-    // TODO check input values
+  constructor(user) {
+    validateUser(user);
 
     const computeState = this._computeState.bind(this);
 
     this._user = new Proxy(
-      { weight, height, age, gender, exercise },
+      user,
       {
         set: (object, property, value) => {
           object[property] = value;
+          validateUser(object);
           computeState();
 
           return true;
