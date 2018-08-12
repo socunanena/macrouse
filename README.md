@@ -16,12 +16,9 @@ const userData = {
   height: 180,
   age: 38,
   gender: 'male',
+  exercise: 'low',
 };
 const macrouse = new Macrouse(userData);
-
-macrouse.bmr();
-
-macrouse.tee({ exercise: 'low' });
 
 const macros = {
   fat: '50%',
@@ -46,44 +43,45 @@ macrouse.distributeMacros(macros);
 | exercise | <code>string</code> | User exercise. Allowed values: 'none', 'low', 'medium', 'high', 'extreme' |
 
 ### weight(weight)
+Sets the user weight.
 
 | Param | Type | Description |
 | --- | --- | --- |
 | weight | <code>number</code> | User weight |
 
 ### height(height)
+Sets the user height.
 
 | Param | Type | Description |
 | --- | --- | --- |
 | height | <code>number</code> | User height |
 
 ### age(age)
+Sets the user age.
 
 | Param | Type | Description |
 | --- | --- | --- |
 | age | <code>number</code> | User age |
 
 ### gender(gender)
+Sets the user gender.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| gender | <code>string</code> | User gender |
+| gender | <code>string</code> | User gender. Allowed values: 'male', 'female' |
 
 ### exercise(exercise)
+Sets the user exercise.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| exercise | <code>string</code> | User exercise |
+| exercise | <code>string</code> | User exercise. Allowed values: 'none', 'low', 'medium', 'high', 'extreme' |
 
 ### bmr()
 Gets the BMR (Basal Metabolic Rate) for the configured user using the Harris-Benedict equation.
 
 ### tee()
 Gets de TEE (Total Energy Expenditure) for the configured user.
-
-| Param | Type | Description |
-| --- | --- | --- |
-| exercise | <code>string</code> | Exercise factor |
 
 ### distributeMacros(macros)
 Distributes the macros so that the total of the calories matches the calculated TEE.

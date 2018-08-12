@@ -103,7 +103,7 @@ export default class Macrouse {
   /**
    * Sets the user gender.
    *
-   * @param {string} gender User gender
+   * @param {string} gender User gender. Allowed values: 'male', 'female'
    */
   gender(gender) {
     this._user.gender = gender;
@@ -114,7 +114,7 @@ export default class Macrouse {
   /**
    * Sets the user exercise.
    *
-   * @param {string} exercise User exercise
+   * @param {string} exercise User exercise. Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
    */
   exercise(exercise) {
     this._user.exercise = exercise;
