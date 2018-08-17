@@ -18,7 +18,11 @@
     "build": "webpack",
     "lint": "eslint src",
     "test": "jest",
-    "tdd": "jest --watch"
+    "tdd": "jest --watch",
+    "preversion": "npm test",
+    "version": "npm run build && git add dist",
+    "postversion": "git push origin master && git push origin --tags",
+    "prepublish": "npm version"
   },
   "devDependencies": {
     "babel-loader": "^7.1.5",
