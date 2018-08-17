@@ -8,6 +8,7 @@ module.exports = {
     library: 'macrouse',
     libraryTarget: 'commonjs2',
   },
+  mode: 'production',
   module: {
     rules: [
       {
