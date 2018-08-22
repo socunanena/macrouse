@@ -28,7 +28,7 @@ describe('#validateUser(user)', () => {
       const validation = () => validateUser(user);
 
       expect(validation).toThrowError(
-        'User validation errors: height should be greater than zero, exercise must be either none, low, medium, high or extreme'
+        'User validation errors: exercise must be either none, low, medium, high or extreme'
       );
     });
   });

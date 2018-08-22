@@ -33,7 +33,7 @@ describe('Macrouse', () => {
           height: 180,
           age: 38,
           gender: 'male',
-          exercise: 'medium',
+          exercise: 'hard',
         };
 
         const instantiateMacrouse = () => new Macrouse(userData);
