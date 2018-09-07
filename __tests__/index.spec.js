@@ -47,7 +47,7 @@ describe('Macrouse', () => {
     it('should return the bmr', () => {
       const macrouse = createClass();
 
-      expect(macrouse.bmr()).toBe(2186);
+      expect(macrouse.bmr()).toBe(1673);
     });
   });
 
@@ -55,14 +55,14 @@ describe('Macrouse', () => {
     it('should return the tee', () => {
       const macrouse = createClass();
 
-      expect(macrouse.tee()).toBe(3388);
+      expect(macrouse.tee()).toBe(2593);
     });
 
     describe('when the user exercise is updated', () => {
       it('should recalculate the state (bmr & tee)', () => {
         const macrouse = createClass();
 
-        expect(macrouse.exercise('high').tee()).toBe(3771);
+        expect(macrouse.exercise('high').tee()).toBe(2886);
       });
 
       describe('and the value is NOT correct', () => {
@@ -101,9 +101,9 @@ describe('Macrouse', () => {
           };
 
           expect(macrouse.distributeMacros(macros)).toEqual({
-            fat: 188,
-            protein: 169,
-            carbs: 254,
+            fat: 144,
+            protein: 130,
+            carbs: 194,
           });
         });
       });
@@ -118,8 +118,8 @@ describe('Macrouse', () => {
           };
 
           expect(macrouse.distributeMacros(macros)).toEqual({
-            fat: 264,
-            protein: 254,
+            fat: 202,
+            protein: 194,
             carbs: 0,
           });
         });
@@ -136,7 +136,7 @@ describe('Macrouse', () => {
         };
 
         expect(macrouse.distributeMacros(macros)).toEqual({
-          fat: 301,
+          fat: 213,
           protein: 140,
           carbs: 30,
         });
@@ -154,8 +154,8 @@ describe('Macrouse', () => {
         };
 
         expect(macrouse.distributeMacros(macros)).toEqual({
-          fat: 248,
-          protein: 239,
+          fat: 186,
+          protein: 179,
           carbs: 50,
         });
       });

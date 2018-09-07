@@ -57,7 +57,7 @@ export default class Macrouse {
       factors.base
       + factors.weight * this._user.weight
       + factors.height * this._user.height
-      + factors.age * this._user.age,
+      - factors.age * this._user.age,
     );
   }
 
