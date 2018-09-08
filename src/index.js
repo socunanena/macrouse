@@ -1,5 +1,5 @@
 import { mapValues, reduce } from 'lodash';
-import { USER_FACTORS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/constants';
+import { METABOLISM_CONSTANTS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/constants';
 import { validateUser, validateMacrosTypes } from './validators';
 
 /**
@@ -51,13 +51,11 @@ export default class Macrouse {
   }
 
   _calculateBmr() {
-    const factors = USER_FACTORS[this._user.gender];
-
     this._bmr = Math.round(
-      factors.base
-      + factors.weight * this._user.weight
-      + factors.height * this._user.height
-      - factors.age * this._user.age,
+      METABOLISM_CONSTANTS.weight * this._user.weight
+      + METABOLISM_CONSTANTS.height * this._user.height
+      - METABOLISM_CONSTANTS.age * this._user.age
+      + METABOLISM_CONSTANTS.base[this._user.gender],
     );
   }
 

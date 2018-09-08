@@ -1,15 +1,10 @@
-export const USER_FACTORS = {
-  male: {
-    base: 66.473,
-    weight: 13.7516,
-    height: 5.0033,
-    age: 6.755,
-  },
-  female: {
-    base: 655.0955,
-    weight: 9.5634,
-    height: 1.8449,
-    age: 4.6756,
+export const METABOLISM_CONSTANTS = {
+  weight: 10,
+  height: 6.25,
+  age: 5,
+  base: {
+    male: 5,
+    female: -161,
   },
 };
 
