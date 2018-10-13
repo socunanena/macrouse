@@ -5317,9 +5317,9 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-validate@^4.4.1:
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/validate/-/validate-4.4.1.tgz#fc31d347dbb9294196c6d606ecc3f0204247247c"
+validate@^4.5.1:
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/validate/-/validate-4.5.1.tgz#ba36b8450b4bad4ccf52d666ba80abb2c01cace2"
   dependencies:
     component-type "1.2.1"
     eivindfjeldstad-dot "0.0.1"

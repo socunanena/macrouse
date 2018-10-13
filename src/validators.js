@@ -11,26 +11,21 @@ import Schema from 'validate';
  *                               Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
  */
 export function validateUser(user) {
-  const greaterThanZero = value => value >= 0;
-
   const userSchema = new Schema({
     weight: {
       type: Number,
       required: true,
-      // TODO use built-in validator https://github.com/eivindfjeldstad/validate/issues/63
-      use: { greaterThanZero },
+      size: { min: 0 },
     },
     height: {
       type: Number,
       required: true,
-      // TODO use built-in validator https://github.com/eivindfjeldstad/validate/issues/63
-      use: { greaterThanZero },
+      size: { min: 0 },
     },
     age: {
       type: Number,
       required: true,
-      // TODO use built-in validator https://github.com/eivindfjeldstad/validate/issues/63
-      use: { greaterThanZero },
+      size: { min: 0 },
     },
     gender: {
       type: String,
@@ -43,8 +38,6 @@ export function validateUser(user) {
       enum: ['none', 'low', 'medium', 'high', 'extreme'],
     },
   });
-
-  userSchema.message({ greaterThanZero: path => `${path} should be greater than zero` });
 
   const errors = userSchema.validate(user);
 
