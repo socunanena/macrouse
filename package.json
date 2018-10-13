@@ -1,6 +1,6 @@
 {
   "name": "macrouse",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Tool to get the macronutrients distribution depending on each person requirements",
   "main": "index.js",
   "repository": "git@github.com:socunanena/macrouse.git",
