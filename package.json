@@ -14,6 +14,11 @@
     "protein",
     "carbs"
   ],
+  "files": [
+    "es",
+    "dist",
+    "index.js"
+  ],
   "scripts": {
     "build": "webpack",
     "lint": "eslint src",
