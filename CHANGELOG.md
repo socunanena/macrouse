@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2018-10-13
+### Changed
+- Updated Harris–Benedict BMR formula to the reviewed by Mifflin and St Jeor in 1990
+- Updated validate package
+
 ## [2.0.1] - 2018-08-17
 ### Added
 - New npm scripts to facilitate package publishing
@@ -45,7 +50,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation
 - Babel
 
-[Unreleased]: https://github.com/socunanena/macrouse/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/socunanena/macrouse/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/socunanena/macrouse/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/socunanena/macrouse/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/socunanena/macrouse/compare/v1.0.3...v2.0.0
 [1.0.3]: https://github.com/socunanena/macrouse/compare/v1.0.2...v1.0.3
