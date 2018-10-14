@@ -20,13 +20,14 @@
     "index.js"
   ],
   "scripts": {
-    "build": "webpack",
     "lint": "eslint src",
     "test": "jest",
     "tdd": "jest --watch",
-    "preversion": "npm test",
-    "version": "npm run build && git add dist",
-    "postversion": "git push origin master && git push origin --tags"
+    "build": "webpack",
+    "prerelease": "npm run test && npm run build",
+    "release": "npm version -m \"New version: %s\"",
+    "postrelease": "npm run push && npm publish",
+    "push": "git push origin master && git push origin --tags"
   },
   "devDependencies": {
     "babel-loader": "^7.1.5",
