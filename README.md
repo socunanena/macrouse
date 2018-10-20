@@ -77,11 +77,21 @@ Sets the user exercise.
 | --- | --- | --- |
 | exercise | <code>string</code> | User exercise. Allowed values: 'none', 'low', 'medium', 'high', 'extreme' |
 
+### goal(goal)
+Sets the user goal.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| goal | <code>number</code> | Goal factor to increment or decrease the TEE. E.g.: 0.9 for a low calorie diet (-10%), 1.1 for high (+10%) and 1 for maintenance |
+
 ### bmr()
 Gets the BMR (Basal Metabolic Rate) for the configured user using the Harris-Benedict equation.
 
 ### tee()
 Gets de TEE (Total Energy Expenditure) for the configured user.
+
+### calorieGoal()
+Gets de calorie goal for the configured user.
 
 ### distributeMacros(macros)
 Distributes the macros so that the total of the calories matches the calculated TEE.
