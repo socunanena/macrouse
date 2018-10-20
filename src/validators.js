@@ -37,6 +37,11 @@ export function validateUser(user) {
       required: true,
       enum: ['none', 'low', 'medium', 'high', 'extreme'],
     },
+    goal: {
+      type: Number,
+      required: false,
+      size: { min: 0, max: 2 },
+    },
   });
 
   const errors = userSchema.validate(user);

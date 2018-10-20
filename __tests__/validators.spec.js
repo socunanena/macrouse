@@ -19,7 +19,7 @@ describe('#validateUser(user)', () => {
     it('should throw an error with all the messages concatenated', () => {
       const user = {
         weight: 70,
-        height: -180,
+        height: 180,
         age: 38,
         gender: 'male',
         exercise: 'hard',

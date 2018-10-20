@@ -23,8 +23,11 @@ export default class Macrouse {
    * @param {string} user.gender User gender. Allowed values: 'male', 'female'
    * @param {string} user.exercise User exercise.
    *                               Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
+   * @param {number} [user.goal=1] User goal.
    */
-  constructor(user) {
+  constructor({ weight, height, age, gender, exercise, goal = 1 }) {
+    const user = { weight, height, age, gender, exercise, goal };
+
     validateUser(user);
 
     const computeState = this._computeState.bind(this);
@@ -48,6 +51,7 @@ export default class Macrouse {
   _computeState() {
     this._calculateBmr();
     this._calculateTee();
+    this._calculateCalorieGoal();
   }
 
   _calculateBmr() {
@@ -63,6 +67,10 @@ export default class Macrouse {
     const exerciseFactor = EXERCISE_FACTORS[this._user.exercise];
 
     this._tee = Math.round(this._bmr * exerciseFactor);
+  }
+
+  _calculateCalorieGoal() {
+    this._calorieGoal = Math.round(this._tee * this._user.goal);
   }
 
   /**
@@ -122,6 +130,17 @@ export default class Macrouse {
   }
 
   /**
+   * Sets the user goal.
+   *
+   * @param {number} goal User goal
+   */
+  goal(goal) {
+    this._user.goal = goal;
+
+    return this;
+  }
+
+  /**
    * Gets the BMR (Basal Metabolic Rate) for the user using the Harris-Benedict equation.
    */
   bmr() {
@@ -133,6 +152,13 @@ export default class Macrouse {
    */
   tee() {
     return this._tee;
+  }
+
+  /**
+   * Gets de calorie goal for the configured user.
+   */
+  calorieGoal() {
+    return this._calorieGoal;
   }
 
   /**
