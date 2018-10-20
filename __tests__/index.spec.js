@@ -77,6 +77,32 @@ describe('Macrouse', () => {
     });
   });
 
+  describe('#calorieGoal()', () => {
+    it('should return the calorie goal', () => {
+      const macrouse = createClass();
+
+      expect(macrouse.calorieGoal()).toBe(2542);
+    });
+
+    describe('when the user goal is updated', () => {
+      it('should recalculate the state', () => {
+        const macrouse = createClass();
+
+        expect(macrouse.goal(0.9).calorieGoal()).toBe(2288);
+      });
+
+      describe('and the value is NOT correct', () => {
+        it('should throw an error', () => {
+          const macrouse = createClass();
+
+          const updateValue = () => macrouse.goal(3);
+
+          expect(updateValue).toThrowError();
+        });
+      })
+    });
+  });
+
   describe('#distributeMacros(options)', () => {
     describe('when there are more than one unprovided macros', () => {
       it('should throw an error', () => {
