@@ -1,12 +1,13 @@
 const Macrouse = require('../src/index.js').default;
 
-function createClass() {
+function createClass({ activityFactor = undefined } = {}) {
   const userData = {
     weight: 70,
     height: 180,
     age: 38,
     gender: 'male',
-    exercise: 'medium',
+    exercise: activityFactor || 'medium',
+    activityFactor,
   };
 
   return new Macrouse(userData);
@@ -73,7 +74,25 @@ describe('Macrouse', () => {
 
           expect(updateValue).toThrowError();
         });
-      })
+      });
+    });
+
+    describe('when the user activity factor is updated', () => {
+      it('should recalculate the state (bmr & tee)', () => {
+        const macrouse = createClass({ activityFactor: 1 });
+
+        expect(macrouse.activityFactor(1.5).tee()).toBe(2829);
+      });
+
+      describe('and the value is NOT correct', () => {
+        it('should throw an error', () => {
+          const macrouse = createClass({ activityFactor: 1 });
+
+          const updateValue = () => macrouse.activityFactor(3);
+
+          expect(updateValue).toThrowError();
+        });
+      });
     });
   });
 

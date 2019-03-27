@@ -131,6 +131,17 @@ export default class Macrouse {
   }
 
   /**
+   * Sets the user activity factor.
+   *
+   * @param {number} activityFactor User activity factor
+   */
+  activityFactor(activityFactor) {
+    this._user.activityFactor = activityFactor;
+
+    return this;
+  }
+
+  /**
    * Sets the user goal.
    *
    * @param {number} goal User goal
