@@ -8,7 +8,7 @@ export const METABOLISM_CONSTANTS = {
   },
 };
 
-export const EXERCISE_FACTORS = {
+export const ACTIVITY_FACTORS = {
   none: 1.2,
   low: 1.375,
   medium: 1.55,

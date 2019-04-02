@@ -1,5 +1,5 @@
 import { mapValues, reduce } from 'lodash';
-import { METABOLISM_CONSTANTS, EXERCISE_FACTORS, MACROS_CALORIES } from '../config/constants';
+import { METABOLISM_CONSTANTS, ACTIVITY_FACTORS, MACROS_CALORIES } from '../config/constants';
 import { validateUser, validateMacrosTypes } from './validators';
 
 /**
@@ -23,10 +23,11 @@ export default class Macrouse {
    * @param {string} user.gender User gender. Allowed values: 'male', 'female'
    * @param {string} user.exercise User exercise.
    *                               Allowed values: 'none', 'low', 'medium', 'high', 'extreme'
+   * @param {number} user.activityFactor User activity factor.
    * @param {number} [user.goal=1] User goal.
    */
-  constructor({ weight, height, age, gender, exercise, goal = 1 }) {
-    const user = { weight, height, age, gender, exercise, goal };
+  constructor({ weight, height, age, gender, exercise, activityFactor, goal = 1 }) {
+    const user = { weight, height, age, gender, exercise, activityFactor, goal };
 
     validateUser(user);
 
@@ -64,9 +65,9 @@ export default class Macrouse {
   }
 
   _calculateTee() {
-    const exerciseFactor = EXERCISE_FACTORS[this._user.exercise];
+    const activityFactor = this._user.activityFactor || ACTIVITY_FACTORS[this._user.exercise];
 
-    this._tee = Math.round(this._bmr * exerciseFactor);
+    this._tee = Math.round(this._bmr * activityFactor);
   }
 
   _calculateCalorieGoal() {
@@ -125,6 +126,17 @@ export default class Macrouse {
    */
   exercise(exercise) {
     this._user.exercise = exercise;
+
+    return this;
+  }
+
+  /**
+   * Sets the user activity factor.
+   *
+   * @param {number} activityFactor User activity factor
+   */
+  activityFactor(activityFactor) {
+    this._user.activityFactor = activityFactor;
 
     return this;
   }
